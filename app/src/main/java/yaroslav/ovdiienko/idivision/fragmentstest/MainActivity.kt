@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity(), RenderScriptView {
 
     override fun setImageBitmap(bitmap: Bitmap?, shouldInvalidateImage: Boolean) {
         image.setImageBitmap(bitmap)
-        if (shouldInvalidateImage) image.invalidate()
+        if (shouldInvalidateImage) image.requestLayout()
     }
 
     private fun getBitmap(resource: Int): Bitmap {
