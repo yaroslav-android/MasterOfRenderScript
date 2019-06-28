@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 interface RenderHelper {
     fun onBarProgressChanged(progress: Int)
     fun loadBitmap(bitmap: Bitmap)
+    fun saveBitmap(bitmap: Bitmap)
 
     fun toggleMode()
 
