@@ -7,17 +7,19 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import kotlinx.android.synthetic.main.activity_main.*
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.Mode
 import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.RenderHelper
 import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.RenderHelperWrapper
 import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.RenderScriptView
+import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.Mode
 
 
 class MainActivity : AppCompatActivity(), RenderScriptView {
     private lateinit var image: ImageView
     private lateinit var seekBar: SeekBar
     private lateinit var changeModeButton: Button
+    private lateinit var saveImageButton: ImageView
 
     private lateinit var renderHelper: RenderHelper
 
@@ -34,12 +36,14 @@ class MainActivity : AppCompatActivity(), RenderScriptView {
         image = iv_renderscript
         seekBar = seek_bar
         changeModeButton = change_mode
+        saveImageButton = save_image
         renderHelper.loadBitmap(getBitmap(R.drawable.img_lights))
     }
 
     private fun setupViewListeners() {
         seekBar.setOnSeekBarChangeListener(getSeekBarListener())
         changeModeButton.setOnClickListener { renderHelper.toggleMode() }
+        saveImageButton.setOnClickListener { renderHelper.saveBitmap(image.drawable.toBitmap()) }
     }
 
     private fun getSeekBarListener(): SeekBar.OnSeekBarChangeListener {

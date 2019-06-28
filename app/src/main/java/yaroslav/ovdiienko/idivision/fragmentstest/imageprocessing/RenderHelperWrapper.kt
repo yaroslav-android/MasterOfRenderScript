@@ -5,12 +5,16 @@ import android.graphics.Bitmap
 import androidx.renderscript.*
 import kotlinx.coroutines.*
 import yaroslav.ovdiienko.idivision.fragmentstest.ScriptC_test
+import yaroslav.ovdiienko.idivision.fragmentstest.fileutil.FileUtil
+import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.C
+import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.Mode
 import kotlin.math.cos
 import kotlin.math.sin
 
 
 class RenderHelperWrapper(private var context: Context?) : RenderHelper {
     private var view: RenderScriptView? = null
+
     private val job: Job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
@@ -92,12 +96,8 @@ class RenderHelperWrapper(private var context: Context?) : RenderHelper {
         val index = currentBitmap
 
         when (mode) {
-            Mode.HUE -> {
-                processHUE(value)
-            }
-            Mode.SATURATION -> {
-                processSaturation(value)
-            }
+            Mode.HUE -> processHUE(value)
+            Mode.SATURATION -> processSaturation(value)
         }
 
         allocationOut[currentBitmap]?.copyTo(bitmapOut[currentBitmap])
@@ -148,6 +148,16 @@ class RenderHelperWrapper(private var context: Context?) : RenderHelper {
         }
 
         view?.setMode(mode)
+    }
+
+    override fun saveBitmap(bitmap: Bitmap) {
+        scope.launch {
+            val savingProcess = withContext(Dispatchers.IO) {
+                async { FileUtil.saveImageToStorage(bitmap) }
+            }
+
+            savingProcess.start()
+        }
     }
 
     override fun loadBitmap(bitmap: Bitmap) {
