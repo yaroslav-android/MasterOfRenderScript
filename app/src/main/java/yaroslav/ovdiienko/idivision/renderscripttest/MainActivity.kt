@@ -82,8 +82,7 @@ class MainActivity : AppCompatActivity(),
         val progress = 50
         renderHelper.onBarProgressChanged(progress)
         seekBar.progress = progress
-        changeModeButton.text =
-            HUE_STRING
+        changeModeButton.text = HUE_STRING
     }
 
     override fun setImageBitmap(bitmap: Bitmap?, shouldInvalidateImage: Boolean) {
