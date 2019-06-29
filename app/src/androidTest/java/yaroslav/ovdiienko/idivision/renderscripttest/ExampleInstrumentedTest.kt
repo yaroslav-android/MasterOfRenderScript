@@ -1,4 +1,4 @@
-package yaroslav.ovdiienko.idivision.fragmentstest
+package yaroslav.ovdiienko.idivision.renderscripttest
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

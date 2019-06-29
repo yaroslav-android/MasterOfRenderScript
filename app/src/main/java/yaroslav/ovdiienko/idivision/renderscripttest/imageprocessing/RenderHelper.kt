@@ -1,4 +1,4 @@
-package yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing
+package yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing
 
 import android.content.Context
 import android.graphics.Bitmap

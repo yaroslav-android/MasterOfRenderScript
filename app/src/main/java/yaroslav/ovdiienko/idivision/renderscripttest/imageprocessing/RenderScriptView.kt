@@ -1,7 +1,7 @@
-package yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing
+package yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing
 
 import android.graphics.Bitmap
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.Mode
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.util.Mode
 
 
 interface RenderScriptView {

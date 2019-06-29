@@ -1,18 +1,19 @@
-package yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing
+package yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing
 
 import android.content.Context
 import android.graphics.Bitmap
 import androidx.renderscript.*
 import kotlinx.coroutines.*
-import yaroslav.ovdiienko.idivision.fragmentstest.ScriptC_test
-import yaroslav.ovdiienko.idivision.fragmentstest.fileutil.FileUtil
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.C
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.Mode
+import yaroslav.ovdiienko.idivision.renderscripttest.fileutil.FileUtil
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.util.C
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.util.Mode
+import yaroslav.ovdiienko.idivision.renderstripttest.ScriptC_test
 import kotlin.math.cos
 import kotlin.math.sin
 
 
-open class RenderHelperWrapper(private var context: Context?) : RenderHelper {
+open class RenderHelperWrapper(private var context: Context?) :
+    RenderHelper {
     private var view: RenderScriptView? = null
 
     private val job: Job = Job()

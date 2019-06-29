@@ -1,4 +1,4 @@
-package yaroslav.ovdiienko.idivision.fragmentstest
+package yaroslav.ovdiienko.idivision.renderscripttest
 
 import org.junit.Test
 

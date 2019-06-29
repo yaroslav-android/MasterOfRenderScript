@@ -1,4 +1,4 @@
-package yaroslav.ovdiienko.idivision.fragmentstest.fileutil
+package yaroslav.ovdiienko.idivision.renderscripttest.fileutil
 
 import android.graphics.Bitmap
 import android.os.Environment
@@ -16,12 +16,15 @@ object FileUtil {
     fun saveImageToStorage(bitmap: Bitmap) {
         val dir = File(STORAGE_PATH)
         dir.createDirIfNotExist()
-        val file = File(dir, FILE_PATH)
+        val file = File(dir,
+            FILE_PATH
+        )
         file.createFileIfNotExist()
 
         FileOutputStream(file).use { output ->
             output.run {
-                bitmap.compress(Bitmap.CompressFormat.PNG, QUALITY, this)
+                bitmap.compress(Bitmap.CompressFormat.PNG,
+                    QUALITY, this)
                 flush()
             }
         }

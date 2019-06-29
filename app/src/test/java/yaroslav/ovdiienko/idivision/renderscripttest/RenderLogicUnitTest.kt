@@ -1,4 +1,4 @@
-package yaroslav.ovdiienko.idivision.fragmentstest
+package yaroslav.ovdiienko.idivision.renderscripttest
 
 import android.content.Context
 import org.junit.Assert
@@ -6,9 +6,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnitRunner
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.RenderHelperWrapper
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.RenderScriptView
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.C
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.RenderHelperWrapper
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.RenderScriptView
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.util.C
 
 @RunWith(MockitoJUnitRunner::class)
 class RenderLogicUnitTest {

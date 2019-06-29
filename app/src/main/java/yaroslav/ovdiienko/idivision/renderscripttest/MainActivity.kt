@@ -1,4 +1,4 @@
-package yaroslav.ovdiienko.idivision.fragmentstest
+package yaroslav.ovdiienko.idivision.renderscripttest
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,13 +9,14 @@ import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import kotlinx.android.synthetic.main.activity_main.*
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.RenderHelper
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.RenderHelperWrapper
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.RenderScriptView
-import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.Mode
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.RenderHelper
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.RenderHelperWrapper
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.RenderScriptView
+import yaroslav.ovdiienko.idivision.renderscripttest.imageprocessing.util.Mode
 
 
-class MainActivity : AppCompatActivity(), RenderScriptView {
+class MainActivity : AppCompatActivity(),
+    RenderScriptView {
     private lateinit var image: ImageView
     private lateinit var seekBar: SeekBar
     private lateinit var changeModeButton: Button
@@ -26,7 +27,8 @@ class MainActivity : AppCompatActivity(), RenderScriptView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        renderHelper = RenderHelperWrapper(this)
+        renderHelper =
+            RenderHelperWrapper(this)
 
         findViews()
         setupViewListeners()
@@ -80,7 +82,8 @@ class MainActivity : AppCompatActivity(), RenderScriptView {
         val progress = 50
         renderHelper.onBarProgressChanged(progress)
         seekBar.progress = progress
-        changeModeButton.text = HUE_STRING
+        changeModeButton.text =
+            HUE_STRING
     }
 
     override fun setImageBitmap(bitmap: Bitmap?, shouldInvalidateImage: Boolean) {
