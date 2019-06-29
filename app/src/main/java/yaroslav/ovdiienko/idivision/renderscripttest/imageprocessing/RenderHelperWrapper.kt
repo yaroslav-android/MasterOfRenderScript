@@ -12,8 +12,7 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-open class RenderHelperWrapper(private var context: Context?) :
-    RenderHelper {
+open class RenderHelperWrapper(private var context: Context?) : RenderHelper {
     private var view: RenderScriptView? = null
 
     private val job: Job = Job()
