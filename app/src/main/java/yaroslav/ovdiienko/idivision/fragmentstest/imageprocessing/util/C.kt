@@ -1,4 +1,4 @@
-package yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing
+package yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util
 
 
 object C {

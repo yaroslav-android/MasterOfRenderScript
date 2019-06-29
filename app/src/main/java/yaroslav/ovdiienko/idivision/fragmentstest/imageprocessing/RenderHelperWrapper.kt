@@ -5,12 +5,16 @@ import android.graphics.Bitmap
 import androidx.renderscript.*
 import kotlinx.coroutines.*
 import yaroslav.ovdiienko.idivision.fragmentstest.ScriptC_test
+import yaroslav.ovdiienko.idivision.fragmentstest.fileutil.FileUtil
+import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.C
+import yaroslav.ovdiienko.idivision.fragmentstest.imageprocessing.util.Mode
 import kotlin.math.cos
 import kotlin.math.sin
 
 
-class RenderHelperWrapper(private var context: Context?) : RenderHelper {
+open class RenderHelperWrapper(private var context: Context?) : RenderHelper {
     private var view: RenderScriptView? = null
+
     private val job: Job = Job()
     private val scope = CoroutineScope(Dispatchers.Main + job)
 
@@ -23,7 +27,7 @@ class RenderHelperWrapper(private var context: Context?) : RenderHelper {
     private lateinit var allocationIn: Allocation
     private val allocationOut = arrayOfNulls<Allocation>(C.BITMAP_COUNT)
 
-    private var currentBitmap = 0
+    protected open var currentBitmap = 0
     private var mode = Mode.HUE
 
     constructor(context: Context?, mode: Mode) : this(context) {
@@ -92,12 +96,8 @@ class RenderHelperWrapper(private var context: Context?) : RenderHelper {
         val index = currentBitmap
 
         when (mode) {
-            Mode.HUE -> {
-                processHUE(value)
-            }
-            Mode.SATURATION -> {
-                processSaturation(value)
-            }
+            Mode.HUE -> processHUE(value)
+            Mode.SATURATION -> processSaturation(value)
         }
 
         allocationOut[currentBitmap]?.copyTo(bitmapOut[currentBitmap])
@@ -133,11 +133,11 @@ class RenderHelperWrapper(private var context: Context?) : RenderHelper {
         script.forEach_saturation(allocationIn, allocationOut[currentBitmap])
     }
 
-    private fun calculateValue(progress: Int, min: Float, max: Float): Float {
+    protected fun calculateValue(progress: Int, min: Float, max: Float): Float {
         return ((max - min) * (progress / 100.0f) + min)
     }
 
-    private fun swapBitmapPosition() {
+    protected fun swapBitmapPosition() {
         currentBitmap = (currentBitmap + 1) % C.BITMAP_COUNT
     }
 
@@ -148,6 +148,16 @@ class RenderHelperWrapper(private var context: Context?) : RenderHelper {
         }
 
         view?.setMode(mode)
+    }
+
+    override fun saveBitmap(bitmap: Bitmap) {
+        scope.launch {
+            val savingProcess = withContext(Dispatchers.IO) {
+                async { FileUtil.saveImageToStorage(bitmap) }
+            }
+
+            savingProcess.start()
+        }
     }
 
     override fun loadBitmap(bitmap: Bitmap) {
