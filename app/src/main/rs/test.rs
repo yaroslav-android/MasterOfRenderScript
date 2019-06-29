@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name(yaroslav.ovdiienko.idivision.fragmentstest)
+#pragma rs java_package_name(yaroslav.ovdiienko.idivision.renderstripttest)
 #pragma rs_fp_relaxed
 
 #include "rs_debug.rsh"
