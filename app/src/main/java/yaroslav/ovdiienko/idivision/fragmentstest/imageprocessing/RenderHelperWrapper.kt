@@ -12,23 +12,23 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 
-open class RenderHelperWrapper(protected var context: Context?) : RenderHelper {
-    protected var view: RenderScriptView? = null
+open class RenderHelperWrapper(private var context: Context?) : RenderHelper {
+    private var view: RenderScriptView? = null
 
-    protected val job: Job = Job()
-    protected val scope = CoroutineScope(Dispatchers.Main + job)
+    private val job: Job = Job()
+    private val scope = CoroutineScope(Dispatchers.Main + job)
 
-    protected lateinit var script: ScriptC_test
-    protected lateinit var scriptMatrix: ScriptIntrinsicColorMatrix
+    private lateinit var script: ScriptC_test
+    private lateinit var scriptMatrix: ScriptIntrinsicColorMatrix
 
-    protected lateinit var bitmapIn: Bitmap
-    protected val bitmapOut = arrayOfNulls<Bitmap>(C.BITMAP_COUNT)
+    private lateinit var bitmapIn: Bitmap
+    private val bitmapOut = arrayOfNulls<Bitmap>(C.BITMAP_COUNT)
 
-    protected lateinit var allocationIn: Allocation
-    protected val allocationOut = arrayOfNulls<Allocation>(C.BITMAP_COUNT)
+    private lateinit var allocationIn: Allocation
+    private val allocationOut = arrayOfNulls<Allocation>(C.BITMAP_COUNT)
 
     protected open var currentBitmap = 0
-    protected var mode = Mode.HUE
+    private var mode = Mode.HUE
 
     constructor(context: Context?, mode: Mode) : this(context) {
         this.mode = mode
@@ -41,7 +41,7 @@ open class RenderHelperWrapper(protected var context: Context?) : RenderHelper {
         initialSetup()
     }
 
-    protected fun initialSetup() {
+    private fun initialSetup() {
         val rs = RenderScript.create(context)
         script = ScriptC_test(rs)
         scriptMatrix = ScriptIntrinsicColorMatrix.create(rs, Element.U8_4(rs))
@@ -56,13 +56,13 @@ open class RenderHelperWrapper(protected var context: Context?) : RenderHelper {
         view?.setupDefaults()
     }
 
-    protected fun allocBitmaps() {
+    private fun allocBitmaps() {
         (0 until C.BITMAP_COUNT).forEach { i ->
             bitmapOut[i] = Bitmap.createBitmap(bitmapIn.width, bitmapIn.height, bitmapIn.config)
         }
     }
 
-    protected fun allocProcessSpace(rs: RenderScript) {
+    private fun allocProcessSpace(rs: RenderScript) {
         allocationIn = Allocation.createFromBitmap(rs, bitmapIn)
         (0 until C.BITMAP_COUNT).forEach { i ->
             allocationOut[i] = Allocation.createFromBitmap(rs, bitmapOut[i])
@@ -82,7 +82,7 @@ open class RenderHelperWrapper(protected var context: Context?) : RenderHelper {
         doImageTransform(calculateValue(progress, min, max))
     }
 
-    protected fun doImageTransform(value: Float) {
+    private fun doImageTransform(value: Float) {
         scope.launch {
             val bitmapPosition = withContext(Dispatchers.IO) {
                 async { processImage(value) }
@@ -92,7 +92,7 @@ open class RenderHelperWrapper(protected var context: Context?) : RenderHelper {
         }
     }
 
-    protected fun processImage(value: Float): Int {
+    private fun processImage(value: Float): Int {
         val index = currentBitmap
 
         when (mode) {
@@ -105,7 +105,7 @@ open class RenderHelperWrapper(protected var context: Context?) : RenderHelper {
         return index
     }
 
-    protected fun processHUE(value: Float) {
+    private fun processHUE(value: Float) {
         val cos = cos(value)
         val sin = sin(value)
         val mat = Matrix3f().also { setupMatrix(it, cos, sin) }
@@ -114,7 +114,7 @@ open class RenderHelperWrapper(protected var context: Context?) : RenderHelper {
         scriptMatrix.forEach(allocationIn, allocationOut[currentBitmap])
     }
 
-    protected fun setupMatrix(matrix: Matrix3f, cos: Float, sin: Float) {
+    private fun setupMatrix(matrix: Matrix3f, cos: Float, sin: Float) {
         matrix.apply {
             set(0, 0, (.299 + .701 * cos + .168 * sin).toFloat())
             set(1, 0, (.587 - .587 * cos + .330 * sin).toFloat())
@@ -128,7 +128,7 @@ open class RenderHelperWrapper(protected var context: Context?) : RenderHelper {
         }
     }
 
-    protected fun processSaturation(value: Float) {
+    private fun processSaturation(value: Float) {
         script._saturationValue = value
         script.forEach_saturation(allocationIn, allocationOut[currentBitmap])
     }
